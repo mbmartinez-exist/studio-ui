@@ -68,6 +68,7 @@ export default function LogInForm(props: LogInFormProps) {
     onSetPassword,
     password,
     enableUsernameInput = false,
+    enableOtpInput = false,
     classes,
     action = '/studio/login',
     method = 'post',
@@ -90,6 +91,15 @@ export default function LogInForm(props: LogInFormProps) {
         className={clsx(cls.spacing, classes?.username)}
         label={<FormattedMessage id="loginView.usernameTextFieldLabel" defaultMessage="Username" />}
         InputLabelProps={{ className: cls.inputLabel }}
+      />
+      <TextField
+        id="loginFormOtpField"
+        name="otp"
+        fullWidth
+        disabled={!enableOtpInput}
+        type="text"
+        className={clsx(cls.spacing, classes?.username)}
+        label="enter OTP"
       />
       <PasswordTextField
         id="loginFormPasswordField"
