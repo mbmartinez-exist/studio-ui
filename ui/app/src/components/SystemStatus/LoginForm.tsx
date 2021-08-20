@@ -37,12 +37,14 @@ type LogInFormProps = PropsWithChildren<{
 export function LogInForm(props: LogInFormProps) {
   const {
     username,
+    otp,
     onSubmit,
     onSetUsername,
     isFetching,
     onSetPassword,
     password,
     enableUsernameInput = false,
+    enableOtpInput = false,
     classes
   } = props;
   return (
@@ -62,6 +64,15 @@ export function LogInForm(props: LogInFormProps) {
             defaultMessage="Username"
           />
         }
+      />
+      <TextField
+        id="loginFormOtpField"
+        fullWidth
+        disabled={!enableOtpInput}
+        type="text"
+        value={otp}
+        className={classes?.username}
+        label="Otp"
       />
       <PasswordTextField
         id="loginFormPasswordField"
