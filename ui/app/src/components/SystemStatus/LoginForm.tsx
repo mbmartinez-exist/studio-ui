@@ -23,24 +23,27 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Send from '@material-ui/icons/Send';
 
-  type LogInFormProps = PropsWithChildren<{
+type LogInFormProps = PropsWithChildren<{
   username: string;
   password: string;
   isFetching: boolean;
   onSubmit: (e: any) => any;
   onSetPassword: Function;
   enableUsernameInput?: boolean;
+  enableOtpInput?: boolean;
+  enablePasswordInput?: boolean;
   onSetUsername?: Function;
+  onSetOtp: Function;
   classes?: {
     username?: string;
     password?: string;
   };
+  handleClickSendOtp: Function;
 }>;
 
 export function LogInForm(props: LogInFormProps) {
   const {
     username,
-    otp,
     onSubmit,
     onSetUsername,
     onSetOtp,
