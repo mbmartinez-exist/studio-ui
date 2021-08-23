@@ -79,7 +79,6 @@ export function LogInForm(props: LogInFormProps) {
         fullWidth
         disabled={!enableOtpInput}
         type="text"
-        value={otp}
         onChange={(e: any) => onSetOtp?.(e.target.value)}
         className={classes?.username}
         label="Otp"
