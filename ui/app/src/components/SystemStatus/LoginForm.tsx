@@ -19,8 +19,11 @@ import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
 import PasswordTextField from '../PasswordTextField';
 import Button from '@material-ui/core/Button';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Send from '@material-ui/icons/Send';
 
-type LogInFormProps = PropsWithChildren<{
+  type LogInFormProps = PropsWithChildren<{
   username: string;
   password: string;
   isFetching: boolean;
@@ -45,7 +48,8 @@ export function LogInForm(props: LogInFormProps) {
     password,
     enableUsernameInput = false,
     enableOtpInput = false,
-    classes
+    classes,
+    handleClickSendOtp
   } = props;
   return (
     <form onSubmit={onSubmit}>
@@ -73,6 +77,19 @@ export function LogInForm(props: LogInFormProps) {
         value={otp}
         className={classes?.username}
         label="Otp"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                edge="end"
+                aria-label="Send OTP"
+                onClick={handleClickSendOtp}
+              >
+                <Send />
+              </IconButton>
+            </InputAdornment>
+          )
+        }}
       />
       <PasswordTextField
         id="loginFormPasswordField"

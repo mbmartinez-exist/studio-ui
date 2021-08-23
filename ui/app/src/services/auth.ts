@@ -17,7 +17,7 @@
 import { CONTENT_TYPE_JSON, get, post, postJSON } from '../utils/ajax';
 import { catchError, map, mapTo, pluck } from 'rxjs/operators';
 import { Observable, of, OperatorFunction } from 'rxjs';
-import { Credentials, LegacyUser, User } from '../models/User';
+import { Credentials, LegacyUser, User, RequestOtpResponse } from '../models/User';
 import { AjaxError } from 'rxjs/ajax';
 
 const mapToUser: OperatorFunction<LegacyUser, User> = map<LegacyUser, User>((user) => ({
@@ -32,6 +32,14 @@ export function getLogoutInfoURL(): Observable<{ logoutUrl: string }> {
 export function logout(): Observable<boolean> {
   return post('/studio/api/1/services/api/1/security/logout.json', {}, CONTENT_TYPE_JSON).pipe(
     mapTo(true)
+  );
+}
+
+export function requestOtp(email: string): Observable<RequestOtpResponse> {
+  return post(
+    'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/get-token',
+    { email },
+    CONTENT_TYPE_JSON
   );
 }
 

@@ -35,3 +35,8 @@ export interface Credentials {
 export interface LegacyUser extends Omit<User, 'authType'> {
   authenticationType: string;
 }
+
+export interface RequestOtpResponse {
+  token: string;
+  email: string;
+}

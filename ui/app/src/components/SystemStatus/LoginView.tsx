@@ -253,6 +253,9 @@ function LoginView(props: SubViewProps) {
   useMount(() => {
     username$.next(username);
   });
+  const onRequestOtp = () => {
+
+  };
   const submit = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
@@ -298,6 +301,9 @@ function LoginView(props: SubViewProps) {
           onSetUsername={(user: string) => {
             setUsername(user);
             username$.next(user);
+          }}
+          handleClickSendOtp={() => {
+            alert('Send OTP now!');
           }}
         />
         {children}
