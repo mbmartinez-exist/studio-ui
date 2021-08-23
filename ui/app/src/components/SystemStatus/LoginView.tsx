@@ -311,6 +311,7 @@ function LoginView(props: SubViewProps) {
           password={password}
           isFetching={isFetching}
           enableUsernameInput={true}
+          enableOtpInput={otpToken}
           onSetPassword={setPassword}
           onSetUsername={(user: string) => {
             setUsername(user);
