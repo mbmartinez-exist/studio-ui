@@ -43,6 +43,18 @@ export function requestOtp(email: string): Observable<RequestOtpResponse> {
   );
 }
 
+export function validateOtp(email: string, token: string, otp: string): Observable<boolean> {
+  return post(
+    'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/verify-token',
+    {
+      email,
+      token,
+      otp
+    },
+    CONTENT_TYPE_JSON
+  );
+}
+
 export function login(credentials: Credentials): Observable<User> {
   return post(
     '/studio/api/1/services/api/1/security/login.json',

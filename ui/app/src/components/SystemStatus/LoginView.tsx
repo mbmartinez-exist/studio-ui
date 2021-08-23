@@ -27,7 +27,9 @@ import {
   login,
   sendPasswordRecovery,
   setPassword as setPasswordService,
-  validatePasswordResetToken
+  validatePasswordResetToken,
+  requestOtp,
+  validateOtp
 } from '../../services/auth';
 import { insureSingleSlash, isBlank } from '../../utils/string';
 import Typography from '@material-ui/core/Typography';
@@ -49,6 +51,7 @@ import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import clsx from 'clsx';
 import { filter } from 'rxjs/operators';
 import { useDebouncedInput, useMount } from '../../utils/hooks';
+import { RequestOtpResponse } from '../../models/User';
 
 setRequestForgeryToken();
 
@@ -238,6 +241,9 @@ function LoginView(props: SubViewProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [storedLangPreferences] = useState(retrieveStoredLangPreferences);
+  const [validOtp, setValidOtp] = useState(false);
+  const [otpToken, setOtpToken] = useState('');
+
   const username$ = useDebouncedInput(
     useCallback(
       (user: string) => {
@@ -254,10 +260,15 @@ function LoginView(props: SubViewProps) {
     username$.next(username);
   });
   const onRequestOtp = () => {
-    alert('username=' + username);
+    requestOtp(username).subscribe((res: RequestOtpResponse) => {
+      setOtpToken(res.token);
+    });
   };
   const checkOtp = (otp: string) => {
-    return true;
+    validateOtp(username, otpToken, otp).subscribe((res: boolean) => {
+      console.log('setting validOtp: ' + res);
+      setValidOtp(res);
+    });
   }
   const submit = (e: any) => {
     e.preventDefault();
@@ -308,13 +319,10 @@ function LoginView(props: SubViewProps) {
           onSetOtp={(otp: string) => {
             if (otp.length != 6) {
               console.log('skipping  non-6 length otp');
+              setValidOtp(false);
               return;
             }
-            if (checkOtp(otp)) {
-              console.log('Valid otp!');
-            } else {
-              console.log('Check otp failed!');
-            }
+            checkOtp(otp);
           }}
           handleClickSendOtp={() => {
             onRequestOtp();
@@ -327,7 +335,7 @@ function LoginView(props: SubViewProps) {
           type="button"
           color="primary"
           onClick={submit}
-          disabled={isFetching}
+          disabled={isFetching || !validOtp}
           variant="contained"
           fullWidth
         >
