@@ -49,6 +49,7 @@ export function LogInForm(props: LogInFormProps) {
     password,
     enableUsernameInput = false,
     enableOtpInput = false,
+    enablePasswordInput = false,
     classes,
     handleClickSendOtp
   } = props;
@@ -93,7 +94,7 @@ export function LogInForm(props: LogInFormProps) {
           )
         }}
       />
-      <PasswordTextField
+      { enablePasswordInput && <PasswordTextField
         id="loginFormPasswordField"
         fullWidth
         autoFocus={!enableUsernameInput}
@@ -103,7 +104,7 @@ export function LogInForm(props: LogInFormProps) {
         label={
           <FormattedMessage id="authMonitor.passwordTextFieldLabel" defaultMessage="Password" />
         }
-      />
+      /> }
       {/* This button is just to have the form submit when pressing enter. */}
       <Button
         children=""

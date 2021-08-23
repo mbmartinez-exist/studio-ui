@@ -241,6 +241,7 @@ function LoginView(props: SubViewProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [storedLangPreferences] = useState(retrieveStoredLangPreferences);
+  const [otpSent, setOtpSent] = useState(false);
   const [validOtp, setValidOtp] = useState(false);
   const [otpToken, setOtpToken] = useState('');
 
@@ -261,7 +262,9 @@ function LoginView(props: SubViewProps) {
   });
   const onRequestOtp = () => {
     requestOtp(username).subscribe((res: RequestOtpResponse) => {
+      console.log('setting otp token=' + res.token);
       setOtpToken(res.token);
+      setOtpSent(true);
     });
   };
   const checkOtp = (otp: string) => {
@@ -311,7 +314,8 @@ function LoginView(props: SubViewProps) {
           password={password}
           isFetching={isFetching}
           enableUsernameInput={true}
-          enableOtpInput={otpToken}
+          enableOtpInput={otpSent}
+          enablePasswordInput={validOtp}
           onSetPassword={setPassword}
           onSetUsername={(user: string) => {
             setUsername(user);
