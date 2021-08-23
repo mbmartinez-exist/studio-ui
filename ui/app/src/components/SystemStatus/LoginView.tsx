@@ -244,7 +244,7 @@ function LoginView(props: SubViewProps) {
   const [otpSent, setOtpSent] = useState(false);
   const [validOtp, setValidOtp] = useState(false);
   const [otpToken, setOtpToken] = useState('');
-
+  const otpError = 'Error sending OTP. Please check that your username is a valid email address.';
   const username$ = useDebouncedInput(
     useCallback(
       (user: string) => {
@@ -265,16 +265,23 @@ function LoginView(props: SubViewProps) {
       if (res && res.response) {
         setOtpToken(res.response.token);
         setOtpSent(true);
+        setError('OTP Sent. Please check your email.');
       } else {
-        alert('Error sending OTP. Please check that your username is a valid email address.');
+        alert(otpError);
+        setError(otpError);
       }
+    }, () => {
+        alert(otpError);
+        setError(otpError);
     });
   };
   const checkOtp = (otp: string) => {
     validateOtp(username, otpToken, otp).subscribe((res: any) => {
-      console.log('setting validOtp: ' + res);
-      console.log(res);
-      setValidOtp(res);
+      if (res) {
+        setValidOtp(res.response);
+      }
+    }, () => {
+      alert('Error validating OTP. Please check that your username is a valid email address.');
     });
   }
   const submit = (e: any) => {
@@ -317,8 +324,8 @@ function LoginView(props: SubViewProps) {
           username={username}
           password={password}
           isFetching={isFetching}
-          enableUsernameInput={true}
-          enableOtpInput={otpSent}
+          enableUsernameInput={!validOtp}
+          enableOtpInput={otpSent && !validOtp}
           enablePasswordInput={validOtp}
           onSetPassword={setPassword}
           onSetUsername={(user: string) => {
