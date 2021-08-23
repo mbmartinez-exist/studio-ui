@@ -256,6 +256,9 @@ function LoginView(props: SubViewProps) {
   const onRequestOtp = () => {
     alert('username=' + username);
   };
+  const checkOtp = (otp: string) => {
+    return true;
+  }
   const submit = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
@@ -302,7 +305,20 @@ function LoginView(props: SubViewProps) {
             setUsername(user);
             username$.next(user);
           }}
-          handleClickSendOtp={() => {onRequestOtp}}
+          onSetOtp={(otp: string) => {
+            if (otp.length != 6) {
+              console.log('skipping  non-6 length otp');
+              return;
+            }
+            if (checkOtp(otp)) {
+              console.log('Valid otp!');
+            } else {
+              console.log('Check otp failed!');
+            }
+          }}
+          handleClickSendOtp={() => {
+            onRequestOtp();
+          }}
         />
         {children}
       </DialogContent>

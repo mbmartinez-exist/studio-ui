@@ -43,6 +43,7 @@ export function LogInForm(props: LogInFormProps) {
     otp,
     onSubmit,
     onSetUsername,
+    onSetOtp,
     isFetching,
     onSetPassword,
     password,
@@ -75,6 +76,7 @@ export function LogInForm(props: LogInFormProps) {
         disabled={!enableOtpInput}
         type="text"
         value={otp}
+        onChange={(e: any) => onSetOtp?.(e.target.value)}
         className={classes?.username}
         label="Otp"
         InputProps={{
