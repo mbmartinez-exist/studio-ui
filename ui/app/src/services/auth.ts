@@ -43,7 +43,7 @@ export function requestOtp(email: string): Observable<any> {
   );
 }
 
-export function validateOtp(email: string, token: string, otp: string): Observable<boolean> {
+export function validateOtp(email: string, token: string, otp: string): Observable<any> {
   return postSimple(
     'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/verify-token',
     {

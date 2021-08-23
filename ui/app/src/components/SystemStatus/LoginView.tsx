@@ -262,16 +262,18 @@ function LoginView(props: SubViewProps) {
   });
   const onRequestOtp = () => {
     requestOtp(username).subscribe((res: any) => {
-      console.log('request otp response');
-      console.log(res);
-      console.log('setting otp token=' + res.token);
-      setOtpToken(res.token);
-      setOtpSent(true);
+      if (res && res.response) {
+        setOtpToken(res.response.token);
+        setOtpSent(true);
+      } else {
+        alert('Error sending OTP. Please check that your username is a valid email address.');
+      }
     });
   };
   const checkOtp = (otp: string) => {
-    validateOtp(username, otpToken, otp).subscribe((res: boolean) => {
+    validateOtp(username, otpToken, otp).subscribe((res: any) => {
       console.log('setting validOtp: ' + res);
+      console.log(res);
       setValidOtp(res);
     });
   }
