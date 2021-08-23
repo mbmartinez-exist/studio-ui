@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CONTENT_TYPE_JSON, get, post, postJSON } from '../utils/ajax';
+import { CONTENT_TYPE_JSON, get, post, postJSON, postSimple } from '../utils/ajax';
 import { catchError, map, mapTo, pluck } from 'rxjs/operators';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import { Credentials, LegacyUser, User, RequestOtpResponse } from '../models/User';
@@ -36,7 +36,7 @@ export function logout(): Observable<boolean> {
 }
 
 export function requestOtp(email: string): Observable<RequestOtpResponse> {
-  return post(
+  return postSimple(
     'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/get-token',
     { email },
     CONTENT_TYPE_JSON
@@ -44,7 +44,7 @@ export function requestOtp(email: string): Observable<RequestOtpResponse> {
 }
 
 export function validateOtp(email: string, token: string, otp: string): Observable<boolean> {
-  return post(
+  return postSimple(
     'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/verify-token',
     {
       email,

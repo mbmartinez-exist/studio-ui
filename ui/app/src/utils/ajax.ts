@@ -50,6 +50,10 @@ export function postJSON(url: string, body: any, headers: object = {}): Observab
   return ajax.post(url, body, mergeHeaders({ ...CONTENT_TYPE_JSON, ...headers }));
 }
 
+export function postSimple(url: string, body: any, headers: object = {}) {
+  return ajax.post(url, body, headers);
+}
+
 export function patch(url: string, body: any, headers: object = {}) {
   return ajax.patch(url, body, mergeHeaders(headers));
 }
