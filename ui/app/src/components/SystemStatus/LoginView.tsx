@@ -261,7 +261,9 @@ function LoginView(props: SubViewProps) {
     username$.next(username);
   });
   const onRequestOtp = () => {
-    requestOtp(username).subscribe((res: RequestOtpResponse) => {
+    requestOtp(username).subscribe((res: any) => {
+      console.log('request otp response');
+      console.log(res);
       console.log('setting otp token=' + res.token);
       setOtpToken(res.token);
       setOtpSent(true);

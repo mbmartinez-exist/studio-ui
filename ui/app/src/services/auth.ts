@@ -35,7 +35,7 @@ export function logout(): Observable<boolean> {
   );
 }
 
-export function requestOtp(email: string): Observable<RequestOtpResponse> {
+export function requestOtp(email: string): Observable<any> {
   return postSimple(
     'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/get-token',
     { email },
