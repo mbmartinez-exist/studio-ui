@@ -254,7 +254,7 @@ function LoginView(props: SubViewProps) {
     username$.next(username);
   });
   const onRequestOtp = () => {
-
+    alert('username=' + username);
   };
   const submit = (e: any) => {
     e.preventDefault();
@@ -302,9 +302,7 @@ function LoginView(props: SubViewProps) {
             setUsername(user);
             username$.next(user);
           }}
-          handleClickSendOtp={() => {
-            alert('Send OTP now!');
-          }}
+          handleClickSendOtp={() => {onRequestOtp}}
         />
         {children}
       </DialogContent>
