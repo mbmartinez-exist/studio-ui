@@ -50,7 +50,7 @@ import { passwordRequirementMessages } from '../../utils/i18n-legacy';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import clsx from 'clsx';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { useDebouncedInput, useMount } from '../../utils/hooks';
 import { RequestOtpResponse } from '../../models/User';
 
@@ -267,24 +267,24 @@ function LoginView(props: SubViewProps) {
       return;
     }
     setError('');
-    getEmailFromUsername(username).pipe(switchMap((res: any) => {
-        if (res && res.email) {
-          setEmail(res.email);
-          requestOtp(res.email).subscribe((otpRes: any) => {
-            if (otpRes && otpRes.response) {
-              setOtpToken(otpRes.response.token);
-              setOtpSent(true);
-              setError('OTP Sent. Please check your email.');
-            } else {
-              setError(otpError);
-            }
-          }, () => {
-              setError(otpError);
-          });
-        } else {
-          setError('Username not found');
-        }
-    }));
+    getEmailFromUsername(username).subscribe((res: any) => {
+      if (res && res.email) {
+        setEmail(res.email);
+        requestOtp(res.email).subscribe((otpRes: any) => {
+          if (otpRes && otpRes.response) {
+            setOtpToken(otpRes.response.token);
+            setOtpSent(true);
+            setError('OTP Sent. Please check your email.');
+          } else {
+            setError(otpError);
+          }
+        }, () => {
+            setError(otpError);
+        });
+      } else {
+        setError('Username not found');
+      }
+    });
   };
   const checkOtp = (otp: string) => {
     setError('');
