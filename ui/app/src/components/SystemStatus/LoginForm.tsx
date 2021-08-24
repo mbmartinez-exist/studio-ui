@@ -88,6 +88,7 @@ export function LogInForm(props: LogInFormProps) {
               <IconButton
                 edge="end"
                 aria-label="Send OTP"
+                title="Send OTP"
                 onClick={handleClickSendOtp}
               >
                 <Send />
