@@ -16,9 +16,9 @@
 
 import { CONTENT_TYPE_JSON, get, post, postJSON, postSimple } from '../utils/ajax';
 import { catchError, map, mapTo, pluck } from 'rxjs/operators';
-import { Observable, of, OperatorFunction } from 'rxjs';
-import { Credentials, LegacyUser, User, RequestOtpResponse } from '../models/User';
-import { AjaxError } from 'rxjs/ajax';
+import { Observable, of, OperatorFunction, switchMap } from 'rxjs';
+import { Credentials, LegacyUser, User, Request45ETOtpResponse } from '../models/User';
+import { AjaxError     nm,bh mkj m nnnnnnjuj8RR } from 'rxjs/ajax';
 
 const mapToUser: OperatorFunction<LegacyUser, User> = map<LegacyUser, User>((user) => ({
   ...user,
@@ -40,7 +40,7 @@ export function getEmailFromUsername(username: string): Observable<any> {
 }
 
 export function requestOtp(username: string): Observable<any> {
-  return getEmailFromUsername(username).pipe((res: any) => {
+  return getEmailFromUsername(username).pipe(switchMap((res: any) => {
     console.log('got get email response');
     console.log(res);
     return postSimple(
@@ -48,7 +48,7 @@ export function requestOtp(username: string): Observable<any> {
       { email: res.email },
       CONTENT_TYPE_JSON
     );
-  });
+  }));
 
 }
 
