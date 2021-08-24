@@ -29,7 +29,8 @@ import {
   setPassword as setPasswordService,
   validatePasswordResetToken,
   requestOtp,
-  validateOtp
+  validateOtp,
+  getEmailFromUsername
 } from '../../services/auth';
 import { insureSingleSlash, isBlank } from '../../utils/string';
 import Typography from '@material-ui/core/Typography';
@@ -49,7 +50,7 @@ import { passwordRequirementMessages } from '../../utils/i18n-legacy';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import clsx from 'clsx';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { useDebouncedInput, useMount } from '../../utils/hooks';
 import { RequestOtpResponse } from '../../models/User';
 
@@ -244,6 +245,7 @@ function LoginView(props: SubViewProps) {
   const [otpSent, setOtpSent] = useState(false);
   const [validOtp, setValidOtp] = useState(false);
   const [otpToken, setOtpToken] = useState('');
+  const [email, setEmail] = useState('');
   const otpError = 'Error sending OTP. Please check that your username is a valid email address.';
   const username$ = useDebouncedInput(
     useCallback(
@@ -265,17 +267,24 @@ function LoginView(props: SubViewProps) {
       return;
     }
     setError('');
-    requestOtp(username).subscribe((res: any) => {
-      if (res && res.response) {
-        setOtpToken(res.response.token);
-        setOtpSent(true);
-        setError('OTP Sent. Please check your email.');
-      } else {
-        setError(otpError);
-      }
-    }, () => {
-        setError(otpError);
-    });
+    getEmailFromUsername(username).pipe(switchMap((res: any) => {
+        if (res && res.email) {
+          setEmail(res.email);
+          requestOtp(res.email).subscribe((otpRes: any) => {
+            if (otpRes && otpRes.response) {
+              setOtpToken(otpRes.response.token);
+              setOtpSent(true);
+              setError('OTP Sent. Please check your email.');
+            } else {
+              setError(otpError);
+            }
+          }, () => {
+              setError(otpError);
+          });
+        } else {
+          setError('Username not found');
+        }
+    }));
   };
   const checkOtp = (otp: string) => {
     setError('');
@@ -284,7 +293,7 @@ function LoginView(props: SubViewProps) {
       setValidOtp(true);
       return;
     }
-    validateOtp(username, otpToken, otp).subscribe((res: any) => {
+    validateOtp(email, otpToken, otp).subscribe((res: any) => {
       if (res) {
         setValidOtp(res.response);
       }

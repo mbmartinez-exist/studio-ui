@@ -39,17 +39,12 @@ export function getEmailFromUsername(username: string): Observable<any> {
   return get(`/studio/api/2/users/get-email-by-username?username=${username}`).pipe(pluck('response'));
 }
 
-export function requestOtp(username: string): Observable<any> {
-  return getEmailFromUsername(username).pipe(switchMap((res: any) => {
-    console.log('got get email response');
-    console.log(res);
+export function requestOtp(email: string): Observable<any> {
     return postSimple(
       'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/get-token',
-      { email: res.email },
+      { email },
       CONTENT_TYPE_JSON
     );
-  }));
-
 }
 
 export function validateOtp(email: string, token: string, otp: string): Observable<any> {
