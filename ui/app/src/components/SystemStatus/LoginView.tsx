@@ -246,6 +246,7 @@ function LoginView(props: SubViewProps) {
   const [validOtp, setValidOtp] = useState(false);
   const [otpToken, setOtpToken] = useState('');
   const [email, setEmail] = useState('');
+  const [sendingOtp, setSendingOtp] = useState(false);
   const otpError = 'Error sending OTP. Please check that your username is a valid email address.';
   const username$ = useDebouncedInput(
     useCallback(
@@ -267,6 +268,7 @@ function LoginView(props: SubViewProps) {
       return;
     }
     setError('');
+    setSendingOtp(true);
     getEmailFromUsername(username).subscribe((res: any) => {
       if (res && res.email) {
         setEmail(res.email);
@@ -284,6 +286,10 @@ function LoginView(props: SubViewProps) {
       } else {
         setError('Username not found');
       }
+      setSendingOtp(false);
+    }, (e: any) => {
+      console.log('Error getting OTP', e);
+      setSendingOtp(false);
     });
   };
   const checkOtp = (otp: string) => {
@@ -363,6 +369,7 @@ function LoginView(props: SubViewProps) {
           handleClickSendOtp={() => {
             onRequestOtp();
           }}
+          sendingOtp={sendingOtp}
         />
         {children}
       </DialogContent>

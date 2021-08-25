@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Send from '@material-ui/icons/Send';
+import HourglassEmpty from '@material-ui/icons/HourglassEmpty';
 
 type LogInFormProps = PropsWithChildren<{
   username: string;
@@ -39,6 +40,7 @@ type LogInFormProps = PropsWithChildren<{
     password?: string;
   };
   handleClickSendOtp: Function;
+  sendingOtp?: boolean;
 }>;
 
 export function LogInForm(props: LogInFormProps) {
@@ -54,8 +56,10 @@ export function LogInForm(props: LogInFormProps) {
     enableOtpInput = false,
     enablePasswordInput = false,
     classes,
-    handleClickSendOtp
+    handleClickSendOtp,
+    sendingOtp
   } = props;
+
   return (
     <form onSubmit={onSubmit}>
       <TextField
@@ -85,14 +89,15 @@ export function LogInForm(props: LogInFormProps) {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton
-                edge="end"
-                aria-label="Send OTP"
-                title="Send OTP"
-                onClick={handleClickSendOtp}
-              >
-                <Send />
-              </IconButton>
+              { sendingOtp ? 
+                <IconButton edge="end" aria-label="Send OTP" title="Send OTP" onClick={handleClickSendOtp}>
+                  <Send /> 
+                </IconButton>
+                :
+                <IconButton edge="end" aria-label="Sending OTP" title="Sending OTP">
+                  <HourglassEmpty /> 
+                </IconButton>
+              }
             </InputAdornment>
           )
         }}
