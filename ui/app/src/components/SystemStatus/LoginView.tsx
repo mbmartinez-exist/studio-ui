@@ -280,13 +280,15 @@ function LoginView(props: SubViewProps) {
           } else {
             setError(otpError);
           }
+          setSendingOtp(false);
         }, () => {
             setError(otpError);
+            setSendingOtp(false);
         });
       } else {
         setError('Username not found');
+        setSendingOtp(false);
       }
-      setSendingOtp(false);
     }, (e: any) => {
       console.log('Error getting OTP', e);
       setSendingOtp(false);
