@@ -90,12 +90,12 @@ export function LogInForm(props: LogInFormProps) {
           endAdornment: (
             <InputAdornment position="end">
               { sendingOtp ? 
-                <IconButton edge="end" aria-label="Send OTP" title="Send OTP" onClick={handleClickSendOtp}>
-                  <Send /> 
-                </IconButton>
-                :
                 <IconButton edge="end" aria-label="Sending OTP" title="Sending OTP">
                   <HourglassEmpty /> 
+                </IconButton>
+                :
+                <IconButton edge="end" aria-label="Send OTP" title="Send OTP" onClick={handleClickSendOtp}>
+                  <Send /> 
                 </IconButton>
               }
             </InputAdornment>
