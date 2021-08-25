@@ -296,11 +296,6 @@ function LoginView(props: SubViewProps) {
   };
   const checkOtp = (otp: string) => {
     setError('');
-    //TODO remove this
-    if (otp === '918171') {
-      setValidOtp(true);
-      return;
-    }
     validateOtp(email, otpToken, otp).subscribe((res: any) => {
       if (res) {
         setValidOtp(res.response);
@@ -309,7 +304,7 @@ function LoginView(props: SubViewProps) {
         setError('Invalid OTP');
       }
     }, () => {
-      setError('Invalid OTP or OTP validation error. Please refresh the page and try again.');
+      setError('Invalid OTP or OTP validation error. Please try again.');
     });
   }
   const submit = (e: any) => {
