@@ -23,6 +23,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Send from '@material-ui/icons/Send';
 import HourglassEmpty from '@material-ui/icons/HourglassEmpty';
+import { CircularProgress } from '@material-ui/core';
 
 type LogInFormProps = PropsWithChildren<{
   username: string;
@@ -90,9 +91,7 @@ export function LogInForm(props: LogInFormProps) {
           endAdornment: (
             <InputAdornment position="end">
               { sendingOtp ? 
-                <IconButton edge="end" aria-label="Sending OTP" title="Sending OTP">
-                  <HourglassEmpty /> 
-                </IconButton>
+                <CircularProgress aria-label="Sending OTP" title="Sending OTP" />
                 :
                 <IconButton edge="end" aria-label="Send OTP" title="Send OTP" onClick={handleClickSendOtp}>
                   <Send /> 
