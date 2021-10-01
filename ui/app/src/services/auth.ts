@@ -41,7 +41,7 @@ export function getEmailFromUsername(username: string): Observable<any> {
 
 export function requestOtp(email: string): Observable<any> {
     return postSimple(
-      'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/get-token',
+      'https://apicms.firstgen.com.ph/api/fgen-crafter-supplement/otp-token/get-token',
       { email },
       CONTENT_TYPE_JSON
     );
@@ -49,7 +49,7 @@ export function requestOtp(email: string): Observable<any> {
 
 export function validateOtp(email: string, token: string, otp: string): Observable<any> {
   return postSimple(
-    'http://20.44.227.213/api/fgen-crafter-supplement/otp-token/verify-token',
+    'https://apicms.firstgen.com.ph/api/fgen-crafter-supplement/otp-token/verify-token',
     {
       email,
       token,
